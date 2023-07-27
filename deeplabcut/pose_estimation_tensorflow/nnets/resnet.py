@@ -43,6 +43,7 @@ class PoseResnet(BasePoseNet):
                 global_pool=False,
                 output_stride=16,
                 is_training=False,
+                reuse = tf.compat.v1.AUTO_REUSE
             )
         return net, end_points
 
@@ -51,7 +52,7 @@ class PoseResnet(BasePoseNet):
         features,
         end_points,
         scope="pose",
-        reuse=None,
+        reuse = tf.compat.v1.AUTO_REUSE,
     ):
         out = super(PoseResnet, self).prediction_layers(
             features,
@@ -59,7 +60,7 @@ class PoseResnet(BasePoseNet):
             reuse,
         )
         out["features"] = features
-        with tf.compat.v1.variable_scope(scope, reuse=reuse):
+        with tf.compat.v1.variable_scope(scope, reuse = tf.compat.v1.AUTO_REUSE):
             if self.cfg["intermediate_supervision"]:
                 layer_name = "resnet_v1_{}/block{}/unit_{}/bottleneck_v1"
                 num_layers = re.findall("resnet_([0-9]*)", self.cfg["net_type"])[0]
