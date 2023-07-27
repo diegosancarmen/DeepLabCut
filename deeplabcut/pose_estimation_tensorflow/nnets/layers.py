@@ -35,7 +35,7 @@ def prediction_layer(cfg, input, name, num_outputs):
         normalizer_fn=None,
         weights_regularizer=slim.l2_regularizer(cfg["weight_decay"]),
     ):
-        with tf.compat.v1.variable_scope(name):
+        with tf.compat.v1.variable_scope(name, reuse = tf.compat.v1.AUTO_REUSE):
             pred = slim.conv2d_transpose(
                 input, num_outputs, kernel_size=[3, 3], stride=2, scope="block4"
             )
@@ -65,7 +65,7 @@ def prediction_layer_stage(cfg, input, name, num_outputs):
         normalizer_fn=None,
         weights_regularizer=slim.l2_regularizer(cfg["weight_decay"]),
     ):
-        with tf.compat.v1.variable_scope(name):
+        with tf.compat.v1.variable_scope(name, reuse = tf.compat.v1.AUTO_REUSE):
             pred = slim.conv2d(
                 input,
                 num_outputs,
