@@ -294,6 +294,14 @@ def analyze_videos(
     The index of the trained network is specified by parameters in the config file
     (in particular the variable 'snapshotindex').
 
+    The labels are stored as MultiIndex Pandas Array, which contains the name of
+    the network, body part name, (x, y) label position in pixels, and the
+    likelihood for each frame per body part. These arrays are stored in an
+    efficient Hierarchical Data Format (HDF) in the same directory where the video
+    is stored. However, if the flag save_as_csv is set to True, the data can also
+    be exported in comma-separated values format (.csv), which in turn can be
+    imported in many programs, such as MATLAB, R, Prism, etc.
+
     Parameters
     ----------
     config: str
@@ -408,14 +416,8 @@ def analyze_videos(
 
     Returns
     -------
-    pandas array
-        The labels are stored as MultiIndex Pandas Array, which contains the name of
-        the network, body part name, (x, y) label position in pixels, and the
-        likelihood for each frame per body part. These arrays are stored in an
-        efficient Hierarchical Data Format (HDF) in the same directory, where the video
-        is stored. However, if the flag save_as_csv is set to True, the data can also
-        be exported in comma-separated values format (.csv), which in turn can be
-        imported in many programs, such as MATLAB, R, Prism, etc.
+    DLCScorer: str
+        the scorer used to analyze the videos
 
     Examples
     --------
@@ -1822,7 +1824,7 @@ def convert_detections2tracklets(
                     assembly_builder.to_pickle(assemblies_filename)
                 else:
                     assembly_builder.from_pickle(assemblies_filename)
-                    print(f"Loading assemblies from {ass_filename}")
+                    print(f"Loading assemblies from {assemblies_filename}")
                 try:
                     data.close()
                 except AttributeError:
